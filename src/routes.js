@@ -5,7 +5,7 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import Emergency from "views/Emergency/Emergency.js";
 import LocalHospitalIcon from "@material-ui/icons/LocalHospital";
-import MedRecords from "views/MedRecords/MedRecords.js";
+import Deals from "views/MedRecords/MedRecords.js";
 import GoogleFit from "views/GoogleFit/GoogleFit.js";
 import Notifications from "@material-ui/icons/Notifications";
 import NotificationsPage from "views/Notifications/Notifications.js";
@@ -57,46 +57,14 @@ const dashboardRoutes = [
     layout: "/navbar",
   },
   {
-    path: "/medRecords",
-    name: "Befunde",
+    path: "/deals",
+    name: "Deals",
     rtlName: "قائمة الجدول",
     icon: "content_paste",
-    component: MedRecords,
-    layout: "/sidebar",
-  },
-  {
-    path: "/appointments",
-    name: "Termine",
-    rtlName: "طباعة",
-    icon: TodayIcon,
-    component: Appointments,
-    layout: "/sidebar",
-  },
-  {
-    path: "/share",
-    name: "Freigabe",
-    rtlName: "إخطارات",
-    icon: ShareIcon,
-    component: Share,
+    component: Deals,
     layout: "/sidebar",
   },
 
-  {
-    path: "/vaccination",
-    name: "Impfpass",
-    rtlName: "خرائط",
-    icon: Alarm,
-    component: Vaccination,
-    layout: "/sidebar",
-  },
-  {
-    path: "/emergency",
-    name: "Notfalldaten",
-    rtlName: "إخطارات",
-    icon: LocalHospitalIcon,
-    component: Emergency,
-    layout: "/sidebar",
-  },
   {
     path: "/notifications",
     name: "Benachrichtigungen",
@@ -123,7 +91,7 @@ const dashboardRoutes = [
   },
   {
     path: "/doctor",
-    name: "Arzt",
+    name: "Premium Interactions",
     rtlName: "إخطارات",
     icon: SupervisorAccountIcon,
     component: Supervisor,
