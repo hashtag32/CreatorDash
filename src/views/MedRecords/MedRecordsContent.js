@@ -55,6 +55,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import { publicKeyProvided } from "components/Internal/Extraction";
 import { withStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import Menu from "@material-ui/core/Menu";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import MenuItem from "@material-ui/core/MenuItem";
 
 function Copyright() {
   return (
@@ -177,6 +185,18 @@ const top100Films = [
   { title: "Monty Python and the Holy Grail", year: 1975 },
 ];
 
+function valueLabelFormat(value) {
+  console.log(value);
+  if (value > 1000000) {
+    return `${Math.round(value / 1000000)}M`;
+  }
+  if (value > 1000) {
+    return `${Math.round(value / 1000)}k`;
+  }
+
+  return Math.round(value);
+}
+
 const styles = (theme) => ({
   margin: {
     margin: theme.spacing(1),
@@ -257,7 +277,24 @@ class MedRecordsContent extends VisuComp {
     super(props);
 
     this.state = {
-      subs: [20, 37],
+      anchorEl: null,
+      setAnchorEl: null,
+      platform: {
+        instagram: true,
+        tiktok: true,
+        facebook: true,
+        youtube: true,
+        blog: true,
+      },
+      category: {
+        food: false,
+        health: true,
+        beauty: true,
+        travel: true,
+        fashion: true,
+        fitness: true,
+      },
+      subs: [1, 5],
       age: "None",
       dbNameMedRecords: "MedRecords",
       dbNameCategories: "CategoryList",
@@ -298,9 +335,7 @@ class MedRecordsContent extends VisuComp {
   };
 
   testfunc = () => {
-    this.setState({
-      openDocModal: true,
-    });
+    console.log(this.state)
   };
 
   // DB functions
@@ -464,30 +499,59 @@ class MedRecordsContent extends VisuComp {
     });
   };
 
-  handleChange = (event) => {
-    console.log("handleChange easy");
-    const name = event.target.name;
+
+
+  handleClick = (event) => {
     this.setState({
-      ...this.state,
-      [name]: event.target.value,
+      anchorEl: event.currentTarget,
     });
   };
 
-  handleChange = (event, newvalue) => {
+  handleClose = () => {
     this.setState({
-      value: newvalue,
+      anchorEl: null,
+    });
+  };
+
+  handleSliderChange = (event, newValue) => {
+    this.setState({
+      subs: newValue,
     });
   };
 
   render() {
     const { classes } = this.props;
-    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const cards = [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+    ];
 
     return (
       <React.Fragment>
         <CssBaseline />
         <AppBar position="relative"></AppBar>
         <main>
+          <Button onClick={this.testfunc}>Testfun</Button>
           {/* Hero unit */}
           <div className={classes.heroContent}>
             <Container maxWidth="sm">
@@ -553,7 +617,7 @@ class MedRecordsContent extends VisuComp {
                   <Select
                     native
                     value={this.state.category}
-                    onChange={(ev) => this.handleChange("category", ev)}
+                    onChange={(ev) => this.handlePropertyChange("category", ev)}
                     label="category"
                     inputProps={{
                       name: "category",
@@ -572,6 +636,127 @@ class MedRecordsContent extends VisuComp {
               </GridItem>
 
               <GridItem item xs={12} sm={6} md={4}>
+                <Button
+                  size="large"
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={this.handleClick("platformAnchorEl")}
+                >
+                  Platform
+                  <KeyboardArrowDownIcon />
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={this.state.platformAnchorEl}
+                  open={Boolean(this.state.platformAnchorEl)}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem>
+                    <FormControlLabel
+                      style={{ color: "#000000" }}
+                      control={
+                        <Checkbox
+                          color="primary"
+                          checked={this.state.platform.instagram}
+                          name="Instagram"
+                        />
+                      }
+                      label="Instagram"
+                    />
+                  </MenuItem>
+                  <MenuItem>
+                    <FormControlLabel
+                      style={{ color: "#000000" }}
+                      control={
+                        <Checkbox
+                          color="primary"
+                          checked={this.state.platform.tiktok}
+                          name="TikTok"
+                        />
+                      }
+                      label="TikTok"
+                    />
+                  </MenuItem>
+                  <MenuItem>
+                    <FormControlLabel
+                      style={{ color: "#000000" }}
+                      control={
+                        <Checkbox
+                          color="primary"
+                          checked={this.state.platform.facebook}
+                          name="facebook"
+                        />
+                      }
+                      label="Facebook"
+                    />
+                  </MenuItem>
+                  <MenuItem>
+                    <FormControlLabel
+                      style={{ color: "#000000" }}
+                      control={
+                        <Checkbox
+                          color="primary"
+                          checked={this.state.platform.youtube}
+                          name="Youtube"
+                        />
+                      }
+                      label="Youtube"
+                    />
+                  </MenuItem>
+                  <MenuItem>
+                    <FormControlLabel
+                      style={{ color: "#000000" }}
+                      control={
+                        <Checkbox
+                          color="primary"
+                          checked={this.state.platform.blog}
+                          name="Blog"
+                        />
+                      }
+                      label="Blog"
+                    />
+                  </MenuItem>
+                </Menu>
+              </GridItem>
+
+              <GridItem item xs={12} sm={6} md={4}>
+                <Button
+                  size="large"
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={this.handleClick}
+                >
+                  Category
+                  <KeyboardArrowDownIcon />
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={this.state.anchorEl}
+                  open={Boolean(this.state.anchorEl)}
+                  onClose={this.handleClose}
+                >
+                  {Object.keys(this.state.category).map((key) => (
+                    <MenuItem>
+                      <FormControlLabel
+                        style={{ color: "#000000" }}
+                        control={
+                          <Checkbox
+                            color="primary"
+                            // onClick={this.handleCheckboxChange("category", key)}
+                            onChange={(ev) => this.handleCheckboxChange("category", key, ev)}
+
+                            checked={this.state.category[key]}
+                            name="Instagram"
+                          />
+                        }
+                        label={key}
+                      />
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </GridItem>
+
+              <GridItem item xs={12} sm={6} md={4}>
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel htmlFor="outlined-age-native-simple">
                     Platform
@@ -579,7 +764,7 @@ class MedRecordsContent extends VisuComp {
                   <Select
                     native
                     value={this.state.platform}
-                    onChange={(ev) => this.handleChange("platform", ev)}
+                    onChange={(ev) => this.handlePropertyChange("platform", ev)}
                     label="platform"
                     inputProps={{
                       name: "platform",
@@ -599,14 +784,16 @@ class MedRecordsContent extends VisuComp {
                 <Typography id="continuous-slider" gutterBottom>
                   Subscriptions
                 </Typography>
-                {/* todo: add non linear slider https://material-ui.com/components/slider/
-                Steps: 100, 1k, 10k, 100k, 1M, 10M und auch so darstellen */}
                 <Slider
+                  min={2}
+                  step={0.1}
+                  max={5}
+                  valueLabelFormat={valueLabelFormat}
+                  scale={(x) => x ** 10}
                   value={this.state.subs}
-                  onChange={(ev) => this.handleChange("subs", ev)}
+                  onChange={this.handleSliderChange}
                   valueLabelDisplay="auto"
                   aria-labelledby="range-slider"
-                  getAriaValueText={this.valuetext}
                 />
               </GridItem>
             </GridContainer>

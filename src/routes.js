@@ -20,6 +20,8 @@ import FAQ from "views/FAQ/FAQ";
 import Imprint from "views/Imprint/Imprint";
 import ContactUs from "views/ContactUs/ContactUs";
 import Premium from "views/Premium/Premium";
+import SignIn from "views/Login/SignIn.js";
+import SignUp from "views/Login/SignUp.js";
 
 import Vaccination from "views/Vaccination/Vaccination.js";
 import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
@@ -40,6 +42,22 @@ import { Icon, InlineIcon } from "@iconify/react";
 // };
 
 const dashboardRoutes = [
+  {
+    path: "/signIn",
+    name: "Sign In",
+    rtlName: "لوحة القيادة",
+    icon: FitnessCenterIcon,
+    component: SignIn,
+    layout: "/exists",
+  },
+  {
+    path: "/signUp",
+    name: "Sign Up",
+    rtlName: "لوحة القيادة",
+    icon: FitnessCenterIcon,
+    component: SignUp,
+    layout: "/exists",
+  },
   {
     path: "/dashboard",
     name: "Dashboard",
