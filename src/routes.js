@@ -92,16 +92,8 @@ const dashboardRoutes = [
     layout: "/navbar",
   },
   {
-    path: "/googleFit",
-    name: "GoogleFit",
-    rtlName: "لوحة القيادة",
-    icon: FitnessCenterIcon,
-    component: GoogleFit,
-    layout: "/sidebar",
-  },
-  {
-    path: "/smartDoc",
-    name: "Smart Doc",
+    path: "/collaboFinder",
+    name: "Collabo Finder",
     rtlName: "إخطارات",
     icon: SmartDocIcon,
     component: SmartDoc,
