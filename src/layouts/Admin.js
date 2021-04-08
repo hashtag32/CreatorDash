@@ -132,7 +132,8 @@ export default function Admin({ ...rest }) {
       />
       <div className={classes.mainPanel} ref={mainPanel}>
         {/* Navbar contains only Search, Dropdown, etc. */}
-        {checkUser() || loginClicked || publicKeyProvided() ? (
+        {/* Set to true */}
+        {checkUser() || loginClicked || publicKeyProvided() || true ? (
           <div>
             <Hidden mdUp implementation="css">
               {/* Mobile Version */}

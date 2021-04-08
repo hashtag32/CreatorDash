@@ -16,7 +16,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import GridItem from "components/Grid/GridItem.js";
-import Link from "@material-ui/core/Link";
+import Link from 'react-router-dom/Link';
+
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -250,14 +251,10 @@ class Premium extends VisuComp {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+            {/* Sign in with Google  */}
+            <Grid container justify="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="/signUp" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

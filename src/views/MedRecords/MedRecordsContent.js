@@ -15,6 +15,8 @@ import Button from "@material-ui/core/Button";
 import CameraIcon from "@material-ui/icons/PhotoCamera";
 import Card from "components/Card/Card.js";
 import CardActions from "@material-ui/core/CardActions";
+import CustomButton from "components/CustomButtons/Button.js";
+
 import CardBody from "components/Card/CardBody.js";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "components/Card/CardHeader.js";
@@ -38,7 +40,7 @@ import GridItem from "components/Grid/GridItem.js";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputLabel from "@material-ui/core/InputLabel";
-import Link from "@material-ui/core/Link";
+import Link from "react-router-dom/Link";
 import MedRecordCard from "views/MedRecords/MedRecordCard.js";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import PropTypes from "prop-types";
@@ -186,7 +188,6 @@ const top100Films = [
 ];
 
 function valueLabelFormat(value) {
-  console.log(value);
   if (value > 1000000) {
     return `${Math.round(value / 1000000)}M`;
   }
@@ -278,6 +279,8 @@ class MedRecordsContent extends VisuComp {
 
     this.state = {
       anchorEl: null,
+      platformAnchorEl: null,
+      categoryAnchorEl: null,
       setAnchorEl: null,
       platform: {
         instagram: true,
@@ -335,7 +338,7 @@ class MedRecordsContent extends VisuComp {
   };
 
   testfunc = () => {
-    console.log(this.state)
+    console.log(this.state);
   };
 
   // DB functions
@@ -438,15 +441,15 @@ class MedRecordsContent extends VisuComp {
     this.changeMedRecord(medRecord, "open", true);
   };
 
-  handleClose = (medRecord) => {
-    this.changeMedRecord(medRecord, "open", false);
-  };
+  // handleClose = (medRecord) => {
+  //   this.changeMedRecord(medRecord, "open", false);
+  // };
 
-  handleCloseModal = () => {
-    this.setState({
-      openDocModal: false,
-    });
-  };
+  // handleCloseModal = () => {
+  //   this.setState({
+  //     openDocModal: false,
+  //   });
+  // };
 
   tableChanges = (medRecord, property, event) => {
     this.changeMedRecord(medRecord, property, event.target.value);
@@ -499,18 +502,41 @@ class MedRecordsContent extends VisuComp {
     });
   };
 
+  // handleClick = (anchorElementName, event) => {
+  //   this.setState({
+  //     anchorEl: event.currentTarget,
+  //   });
+  // };
 
-
-  handleClick = (event) => {
+  handleAnchorClick = (anchorElementName, event) => {
     this.setState({
-      anchorEl: event.currentTarget,
+      [anchorElementName]: event.currentTarget,
     });
   };
 
-  handleClose = () => {
+
+  handleCloseCategory = () => {
     this.setState({
-      anchorEl: null,
+      categoryAnchorEl: null,
     });
+  };
+
+
+
+  handleCloseMenu = (anchorElementName,ev) => {
+    console.log(anchorElementName)
+    console.log(ev)
+    this.setState({
+      [anchorElementName]: null,
+    });
+  };
+
+  handleCheckboxChange = (checkBoxElement, key, event) => {
+    var checkBoxData = { ...this.state[checkBoxElement] };
+
+    checkBoxData[key] = event.target.checked;
+
+    this.setState({ [checkBoxElement]: checkBoxData });
   };
 
   handleSliderChange = (event, newValue) => {
@@ -577,14 +603,18 @@ class MedRecordsContent extends VisuComp {
               <div className={classes.heroButtons}>
                 <Grid container spacing={2} justify="center">
                   <Grid item>
-                    <Button variant="contained" color="primary">
-                      Register
-                    </Button>
+                    <Link style={{ textDecoration: "none" }} to="/signUp">
+                      <Button variant="contained" color="primary">
+                        Register
+                      </Button>
+                    </Link>
                   </Grid>
                   <Grid item>
-                    <Button variant="outlined" color="primary">
-                      Login
-                    </Button>
+                    <Link style={{ textDecoration: "none" }} to="/signIn">
+                      <Button variant="outlined" color="primary">
+                        Login
+                      </Button>
+                    </Link>
                   </Grid>
                 </Grid>
               </div>
@@ -609,38 +639,14 @@ class MedRecordsContent extends VisuComp {
                 />
               </GridItem>
 
-              <GridItem xs={12} sm={6} md={4}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel htmlFor="outlined-age-native-simple">
-                    Category
-                  </InputLabel>
-                  <Select
-                    native
-                    value={this.state.category}
-                    onChange={(ev) => this.handlePropertyChange("category", ev)}
-                    label="category"
-                    inputProps={{
-                      name: "category",
-                      id: "outlined-age-native-simple",
-                    }}
-                  >
-                    <option aria-label="None" value="" />
-                    <option value={10}>Food</option>
-                    <option value={20}>Health</option>
-                    <option value={30}>Beauty</option>
-                    <option value={40}>Travel</option>
-                    <option value={50}>Fashion</option>
-                    <option value={60}>Fitness</option>
-                  </Select>
-                </FormControl>
-              </GridItem>
-
               <GridItem item xs={12} sm={6} md={4}>
                 <Button
                   size="large"
                   aria-controls="simple-menu"
                   aria-haspopup="true"
-                  onClick={this.handleClick("platformAnchorEl")}
+                  onClick={(ev) =>
+                    this.handleAnchorClick("platformAnchorEl", ev)
+                  }
                 >
                   Platform
                   <KeyboardArrowDownIcon />
@@ -649,104 +655,19 @@ class MedRecordsContent extends VisuComp {
                   id="simple-menu"
                   anchorEl={this.state.platformAnchorEl}
                   open={Boolean(this.state.platformAnchorEl)}
-                  onClose={this.handleClose}
+                  onClose={(ev) =>this.handleCloseMenu("platformAnchorEl",ev)}
                 >
-                  <MenuItem>
-                    <FormControlLabel
-                      style={{ color: "#000000" }}
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={this.state.platform.instagram}
-                          name="Instagram"
-                        />
-                      }
-                      label="Instagram"
-                    />
-                  </MenuItem>
-                  <MenuItem>
-                    <FormControlLabel
-                      style={{ color: "#000000" }}
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={this.state.platform.tiktok}
-                          name="TikTok"
-                        />
-                      }
-                      label="TikTok"
-                    />
-                  </MenuItem>
-                  <MenuItem>
-                    <FormControlLabel
-                      style={{ color: "#000000" }}
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={this.state.platform.facebook}
-                          name="facebook"
-                        />
-                      }
-                      label="Facebook"
-                    />
-                  </MenuItem>
-                  <MenuItem>
-                    <FormControlLabel
-                      style={{ color: "#000000" }}
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={this.state.platform.youtube}
-                          name="Youtube"
-                        />
-                      }
-                      label="Youtube"
-                    />
-                  </MenuItem>
-                  <MenuItem>
-                    <FormControlLabel
-                      style={{ color: "#000000" }}
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={this.state.platform.blog}
-                          name="Blog"
-                        />
-                      }
-                      label="Blog"
-                    />
-                  </MenuItem>
-                </Menu>
-              </GridItem>
-
-              <GridItem item xs={12} sm={6} md={4}>
-                <Button
-                  size="large"
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={this.handleClick}
-                >
-                  Category
-                  <KeyboardArrowDownIcon />
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.anchorEl}
-                  open={Boolean(this.state.anchorEl)}
-                  onClose={this.handleClose}
-                >
-                  {Object.keys(this.state.category).map((key) => (
+                  {Object.keys(this.state.platform).map((key) => (
                     <MenuItem>
                       <FormControlLabel
                         style={{ color: "#000000" }}
                         control={
                           <Checkbox
                             color="primary"
-                            // onClick={this.handleCheckboxChange("category", key)}
-                            onChange={(ev) => this.handleCheckboxChange("category", key, ev)}
-
-                            checked={this.state.category[key]}
-                            name="Instagram"
+                            onChange={(ev) =>
+                              this.handleCheckboxChange("platform", key, ev)
+                            }
+                            checked={this.state.platform[key]}
                           />
                         }
                         label={key}
@@ -757,27 +678,42 @@ class MedRecordsContent extends VisuComp {
               </GridItem>
 
               <GridItem item xs={12} sm={6} md={4}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel htmlFor="outlined-age-native-simple">
-                    Platform
-                  </InputLabel>
-                  <Select
-                    native
-                    value={this.state.platform}
-                    onChange={(ev) => this.handlePropertyChange("platform", ev)}
-                    label="platform"
-                    inputProps={{
-                      name: "platform",
-                      id: "outlined-age-native-simple",
-                    }}
-                  >
-                    <option aria-label="None" value="" />
-                    <option value={10}>Instagram</option>
-                    <option value={20}>Youtube</option>
-                    <option value={30}>TikTok</option>
-                    <option value={40}>Blog</option>
-                  </Select>
-                </FormControl>
+                <Button
+                  size="large"
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={(ev) =>
+                    this.handleAnchorClick("categoryAnchorEl", ev)
+                  }
+                >
+                  Category
+                  <KeyboardArrowDownIcon />
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={this.state.categoryAnchorEl}
+                  open={Boolean(this.state.categoryAnchorEl)}
+                  onClose={(ev) =>this.handleCloseMenu("categoryAnchorEl",ev)}
+                >
+                  {Object.keys(this.state.category).map((key) => (
+                    <MenuItem>
+                      <FormControlLabel
+                        style={{ color: "#000000" }}
+                        control={
+                          <Checkbox
+                            color="primary"
+                            onChange={(ev) =>
+                              this.handleCheckboxChange("category", key, ev)
+                            }
+                            checked={this.state.category[key]}
+                            name="Instagram"
+                          />
+                        }
+                        label={key}
+                      />
+                    </MenuItem>
+                  ))}
+                </Menu>
               </GridItem>
 
               <GridItem item xs={12} sm={6} md={4}>
