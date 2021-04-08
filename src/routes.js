@@ -5,7 +5,7 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import Emergency from "views/Emergency/Emergency.js";
 import LocalHospitalIcon from "@material-ui/icons/LocalHospital";
-import Deals from "views/MedRecords/MedRecords.js";
+import Deals from "views/Deals/Deals.js";
 import GoogleFit from "views/GoogleFit/GoogleFit.js";
 import Notifications from "@material-ui/icons/Notifications";
 import NotificationsPage from "views/Notifications/Notifications.js";

@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import MedRecordDialog from "views/MedRecords/MedRecordDialog.js";
+import MedRecordDialog from "views/Deals/MedRecordDialog.js";
 import PropTypes from "prop-types";
 import React from "react";
 import ShareIcon from "@material-ui/icons/Share";

@@ -41,7 +41,6 @@ import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputLabel from "@material-ui/core/InputLabel";
 import Link from "react-router-dom/Link";
-import MedRecordCard from "views/MedRecords/MedRecordCard.js";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import PropTypes from "prop-types";
 import React from "react";
@@ -153,7 +152,7 @@ const styles = (theme) => ({
   },
 });
 
-class MedRecordsContent extends VisuComp {
+class DealsContent extends VisuComp {
   constructor(props) {
     super(props);
 
@@ -695,7 +694,7 @@ class MedRecordsContent extends VisuComp {
   }
 }
 
-MedRecordsContent.propTypes = {
+DealsContent.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
@@ -704,6 +703,6 @@ const mapStateToProps = (state) => ({
   loginState: state.loginState,
 });
 
-const MedRecordsContentWithRedux = connect(mapStateToProps)(MedRecordsContent);
+const DealsContentWithRedux = connect(mapStateToProps)(DealsContent);
 
-export default withStyles(styles)(MedRecordsContentWithRedux);
+export default withStyles(styles)(DealsContentWithRedux);
