@@ -1,70 +1,41 @@
-import {
-  getCurrentDate,
-  getStringDate,
-} from "components/Internal/VisuElements.js";
-import {
-  readDBData,
-  uploadFile,
-  writeDBData,
-} from "components/Internal/DBFunctions.js";
+import { getCurrentDate } from "components/Internal/VisuElements.js";
+import { uploadFile } from "components/Internal/DBFunctions.js";
 
-import AddButton from "components/VisuComps/AddButton.js";
 import AppBar from "@material-ui/core/AppBar";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import Assignment from "@material-ui/icons/Assignment";
+import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import CameraIcon from "@material-ui/icons/PhotoCamera";
 import Card from "components/Card/Card.js";
 import CardActions from "@material-ui/core/CardActions";
-import CustomButton from "components/CustomButtons/Button.js";
-
 import CardBody from "components/Card/CardBody.js";
 import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "components/Card/CardHeader.js";
+import CardFooter from "components/Card/CardFooter.js";
 import CardMedia from "@material-ui/core/CardMedia";
-import CommonComps from "components/Internal/CommonComps";
+import Checkbox from "@material-ui/core/Checkbox";
 import { CommonCompsData } from "components/Internal/DefaultData";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { DefaultCategories } from "components/Internal/DefaultData.js";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
+import Divider from "@material-ui/core/Divider";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import Link from "react-router-dom/Link";
-import NativeSelect from "@material-ui/core/NativeSelect";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import PropTypes from "prop-types";
 import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
-import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
-import Toolbar from "@material-ui/core/Toolbar";
+import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 import VisuComp from "components/Internal/VisuComp";
-import clsx from "clsx";
+import Warning from "@material-ui/icons/Warning";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import { publicKeyProvided } from "components/Internal/Extraction";
 import { withStyles } from "@material-ui/core/styles";
-import Slider from "@material-ui/core/Slider";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import Menu from "@material-ui/core/Menu";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import MenuItem from "@material-ui/core/MenuItem";
-
 
 function valueLabelFormat(value) {
   if (value > 1000000) {
@@ -88,14 +59,17 @@ const styles = (theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(4, 0, 3),
   },
   heroButtons: {
     marginTop: theme.spacing(4),
   },
+  selectionMenu: {
+    paddingTop: theme.spacing(0),
+    paddingBottom: theme.spacing(0),
+  },
   cardGrid: {
-    paddingTop: theme.spacing(4),
+    paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(8),
   },
   formControl: {
@@ -398,18 +372,15 @@ class DealsContent extends VisuComp {
     });
   };
 
-
   handleCloseCategory = () => {
     this.setState({
       categoryAnchorEl: null,
     });
   };
 
-
-
-  handleCloseMenu = (anchorElementName,ev) => {
-    console.log(anchorElementName)
-    console.log(ev)
+  handleCloseMenu = (anchorElementName, ev) => {
+    console.log(anchorElementName);
+    console.log(ev);
     this.setState({
       [anchorElementName]: null,
     });
@@ -505,157 +476,180 @@ class DealsContent extends VisuComp {
             </Container>
           </div>
 
+          <Container className={classes.selectionMenu} maxWidth="md">
+            <Card>
+              <CardBody>
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  bgcolor="background.paper"
+                >
+                  <Box p={1}>
+                    <SearchIcon />
+                  </Box>
+                  <Box width={1} p={1}>
+                    <Input
+                      placeholder="Search "
+                      fullWidth={true}
+                      disableUnderline={true}
+                    >
+                      Search
+                    </Input>
+                  </Box>
+                </Box>
+                <Divider />
+
+                <GridContainer>
+                  <GridItem xs={12} sm={6} md={3}>
+                    <Button
+                      size="large"
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={(ev) =>
+                        this.handleAnchorClick("typeAnchorEl", ev)
+                      }
+                    >
+                      Type
+                      <KeyboardArrowDownIcon />
+                    </Button>
+                    <Menu
+                      id="simple-menu"
+                      anchorEl={this.state.typeAnchorEl}
+                      open={Boolean(this.state.typeAnchorEl)}
+                      onClose={(ev) => this.handleCloseMenu("typeAnchorEl", ev)}
+                    >
+                      {Object.keys(this.state.type).map((key) => (
+                        <MenuItem>
+                          <FormControlLabel
+                            style={{ color: "#000000" }}
+                            control={
+                              <Checkbox
+                                color="primary"
+                                onChange={(ev) =>
+                                  this.handleCheckboxChange("type", key, ev)
+                                }
+                                checked={this.state.type[key]}
+                              />
+                            }
+                            label={key}
+                          />
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </GridItem>
+
+                  <GridItem xs={12} sm={6} md={3}>
+                    <Button
+                      size="large"
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={(ev) =>
+                        this.handleAnchorClick("platformAnchorEl", ev)
+                      }
+                    >
+                      Platform
+                      <KeyboardArrowDownIcon />
+                    </Button>
+                    <Menu
+                      id="simple-menu"
+                      anchorEl={this.state.platformAnchorEl}
+                      open={Boolean(this.state.platformAnchorEl)}
+                      onClose={(ev) =>
+                        this.handleCloseMenu("platformAnchorEl", ev)
+                      }
+                    >
+                      {Object.keys(this.state.platform).map((key) => (
+                        <MenuItem>
+                          <FormControlLabel
+                            style={{ color: "#000000" }}
+                            control={
+                              <Checkbox
+                                color="primary"
+                                onChange={(ev) =>
+                                  this.handleCheckboxChange("platform", key, ev)
+                                }
+                                checked={this.state.platform[key]}
+                              />
+                            }
+                            label={key}
+                          />
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </GridItem>
+
+                  <GridItem xs={12} sm={6} md={3}>
+                    <Button
+                      size="large"
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={(ev) =>
+                        this.handleAnchorClick("categoryAnchorEl", ev)
+                      }
+                    >
+                      Category
+                      <KeyboardArrowDownIcon />
+                    </Button>
+                    <Menu
+                      id="simple-menu"
+                      anchorEl={this.state.categoryAnchorEl}
+                      open={Boolean(this.state.categoryAnchorEl)}
+                      onClose={(ev) =>
+                        this.handleCloseMenu("categoryAnchorEl", ev)
+                      }
+                    >
+                      {Object.keys(this.state.category).map((key) => (
+                        <MenuItem>
+                          <FormControlLabel
+                            style={{ color: "#000000" }}
+                            control={
+                              <Checkbox
+                                color="primary"
+                                onChange={(ev) =>
+                                  this.handleCheckboxChange("category", key, ev)
+                                }
+                                checked={this.state.category[key]}
+                                name="Instagram"
+                              />
+                            }
+                            label={key}
+                          />
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </GridItem>
+                  <GridItem xs={12} sm={6} md={3}>
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      bgcolor="background.paper"
+                    >
+                      <Box p={1}>
+                        <Typography id="continuous-slider">
+                          Subscriptions
+                        </Typography>
+                      </Box>
+                      <Box width={1} p={1}>
+                        <Slider
+                          min={2}
+                          step={0.1}
+                          max={5}
+                          valueLabelFormat={valueLabelFormat}
+                          scale={(x) => x ** 10}
+                          value={this.state.subs}
+                          onChange={this.handleSliderChange}
+                          valueLabelDisplay="auto"
+                          aria-labelledby="range-slider"
+                        />
+                      </Box>
+                    </Box>
+                  </GridItem>
+                </GridContainer>
+              </CardBody>
+            </Card>
+          </Container>
+
           <Container className={classes.cardGrid} maxWidth="md">
-            <GridContainer>
-              <GridItem xs={12} sm={6} md={4}>
-                <TextField
-                  variant="outlined"
-                  placeholder="Search deals"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <IconButton>
-                          <SearchIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </GridItem>
-
-              <GridItem item xs={12} sm={6} md={4}>
-                <Button
-                  size="large"
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={(ev) =>
-                    this.handleAnchorClick("typeAnchorEl", ev)
-                  }
-                >
-                  Type
-                  <KeyboardArrowDownIcon />
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.typeAnchorEl}
-                  open={Boolean(this.state.typeAnchorEl)}
-                  onClose={(ev) =>this.handleCloseMenu("typeAnchorEl",ev)}
-                >
-                  {Object.keys(this.state.type).map((key) => (
-                    <MenuItem>
-                      <FormControlLabel
-                        style={{ color: "#000000" }}
-                        control={
-                          <Checkbox
-                            color="primary"
-                            onChange={(ev) =>
-                              this.handleCheckboxChange("type", key, ev)
-                            }
-                            checked={this.state.type[key]}
-                          />
-                        }
-                        label={key}
-                      />
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </GridItem>
-
-              <GridItem item xs={12} sm={6} md={4}>
-                <Button
-                  size="large"
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={(ev) =>
-                    this.handleAnchorClick("platformAnchorEl", ev)
-                  }
-                >
-                  Platform
-                  <KeyboardArrowDownIcon />
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.platformAnchorEl}
-                  open={Boolean(this.state.platformAnchorEl)}
-                  onClose={(ev) =>this.handleCloseMenu("platformAnchorEl",ev)}
-                >
-                  {Object.keys(this.state.platform).map((key) => (
-                    <MenuItem>
-                      <FormControlLabel
-                        style={{ color: "#000000" }}
-                        control={
-                          <Checkbox
-                            color="primary"
-                            onChange={(ev) =>
-                              this.handleCheckboxChange("platform", key, ev)
-                            }
-                            checked={this.state.platform[key]}
-                          />
-                        }
-                        label={key}
-                      />
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </GridItem>
-
-              <GridItem item xs={12} sm={6} md={4}>
-                <Button
-                  size="large"
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={(ev) =>
-                    this.handleAnchorClick("categoryAnchorEl", ev)
-                  }
-                >
-                  Category
-                  <KeyboardArrowDownIcon />
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.categoryAnchorEl}
-                  open={Boolean(this.state.categoryAnchorEl)}
-                  onClose={(ev) =>this.handleCloseMenu("categoryAnchorEl",ev)}
-                >
-                  {Object.keys(this.state.category).map((key) => (
-                    <MenuItem>
-                      <FormControlLabel
-                        style={{ color: "#000000" }}
-                        control={
-                          <Checkbox
-                            color="primary"
-                            onChange={(ev) =>
-                              this.handleCheckboxChange("category", key, ev)
-                            }
-                            checked={this.state.category[key]}
-                            name="Instagram"
-                          />
-                        }
-                        label={key}
-                      />
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </GridItem>
-
-              <GridItem item xs={12} sm={6} md={4}>
-                <Typography id="continuous-slider" gutterBottom>
-                  Subscriptions
-                </Typography>
-                <Slider
-                  min={2}
-                  step={0.1}
-                  max={5}
-                  valueLabelFormat={valueLabelFormat}
-                  scale={(x) => x ** 10}
-                  value={this.state.subs}
-                  onChange={this.handleSliderChange}
-                  valueLabelDisplay="auto"
-                  aria-labelledby="range-slider"
-                />
-              </GridItem>
-            </GridContainer>
-
             {/* End hero unit */}
             <Grid container spacing={4}>
               {cards.map((card) => (
