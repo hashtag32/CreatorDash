@@ -13,6 +13,7 @@ import CardFooter from "components/Card/CardFooter.js";
 import CardMedia from "@material-ui/core/CardMedia";
 import Checkbox from "@material-ui/core/Checkbox";
 import { CommonCompsData } from "components/Internal/DefaultData";
+import Avatar from "@material-ui/core/Avatar";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { DefaultCategories } from "components/Internal/DefaultData.js";
@@ -27,6 +28,8 @@ import Link from "react-router-dom/Link";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import PropTypes from "prop-types";
+import Rating from '@material-ui/lab/Rating';
+
 import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import Slider from "@material-ui/core/Slider";
@@ -83,9 +86,10 @@ const styles = (theme) => ({
   },
   cardMedia: {
     paddingTop: "56.25%", // 16:9
+    height: "200px",
   },
   cardContent: {
-    flexGrow: 1,
+    flexGrow: 0,
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -123,6 +127,10 @@ const styles = (theme) => ({
       fontWeight: "400",
       lineHeight: "1",
     },
+  },
+  cardDescription: {
+    paddingTop: "24px",
+    paddingBottom: "16px",
   },
 });
 
@@ -427,6 +435,23 @@ class DealsContent extends VisuComp {
       22,
     ];
 
+    const content = [
+      {
+        image:
+          "https://fiverr-res.cloudinary.com/t_gig_cards_web,q_auto,f_auto/gigs/199483932/original/1443b1d8f2dd19c1f254f1f535c7e86e2bc1a39f.jpg",
+        company: "Coca-Cola",
+        companyLogo: "https://img.icons8.com/color/452/coca-cola.png",
+        created: "8. April 2021",
+        description:
+          "We're looking for experienced Developers and Product Designers to come aboard and help us build succesful businesses through software.",
+        platform: "tiktok",
+        type: "Advertising",
+        subs: "100k",
+        budget: "5000$",
+        rating: 4,
+      },
+    ];
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -500,7 +525,12 @@ class DealsContent extends VisuComp {
                 <Divider />
 
                 <GridContainer>
-                  <GridItem xs={12} sm={6} md={3}>
+                  <GridItem
+                    xs={12}
+                    sm={6}
+                    md={3}
+                    style={{ textAlign: "center" }}
+                  >
                     <Button
                       size="large"
                       aria-controls="simple-menu"
@@ -538,7 +568,12 @@ class DealsContent extends VisuComp {
                     </Menu>
                   </GridItem>
 
-                  <GridItem xs={12} sm={6} md={3}>
+                  <GridItem
+                    xs={12}
+                    sm={6}
+                    md={3}
+                    style={{ textAlign: "center" }}
+                  >
                     <Button
                       size="large"
                       aria-controls="simple-menu"
@@ -578,7 +613,12 @@ class DealsContent extends VisuComp {
                     </Menu>
                   </GridItem>
 
-                  <GridItem xs={12} sm={6} md={3}>
+                  <GridItem
+                    xs={12}
+                    sm={6}
+                    md={3}
+                    style={{ textAlign: "center" }}
+                  >
                     <Button
                       size="large"
                       aria-controls="simple-menu"
@@ -618,7 +658,11 @@ class DealsContent extends VisuComp {
                       ))}
                     </Menu>
                   </GridItem>
-                  <GridItem xs={12} sm={6} md={3}>
+                  <GridItem
+                    xs={12}
+                    sm={6}
+                    md={3}
+                  >
                     <Box
                       display="flex"
                       flexDirection="row"
@@ -649,33 +693,114 @@ class DealsContent extends VisuComp {
             </Card>
           </Container>
 
+          {/* Content */}
           <Container className={classes.cardGrid} maxWidth="md">
-            {/* End hero unit */}
             <Grid container spacing={4}>
-              {cards.map((card) => (
+              {content.map((card) => (
                 <Grid item key={card} xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
                     <CardMedia
                       className={classes.cardMedia}
-                      image="https://source.unsplash.com/random"
+                      image={card.image}
                       title="Image title"
                     />
                     <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Heading
+                      {/* Horizontal Box */}
+                      <Box
+                        display="flex"
+                        flexDirection="row"
+                        bgcolor="background.paper"
+                      >
+                        <Box p={1}>
+                          <Avatar
+                            alt="Remy Sharp"
+                            src={card.companyLogo}
+                            className={classes.small}
+                          />
+                        </Box>
+                        <Box
+                          display="flex"
+                          flexDirection="column"
+                          bgcolor="background.paper"
+                        >
+                          {/* Horizontal Box */}
+                          <Box>
+                            <Typography variant="h5" component="h2">
+                              {card.company}
+                            </Typography>
+                          </Box>
+                          <Box>
+                            <Typography variant="body2">
+                              {card.created}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+
+                      <Typography
+                        variant="body2"
+                        className={classes.cardDescription}
+                      >
+                        {card.description}
                       </Typography>
-                      <Typography>
-                        This is a media card. You can use this section to
-                        describe the content.
-                      </Typography>
+
+                      {/* 3 Columns */}
+                      <GridContainer>
+                        <GridItem
+                         xs={12}
+                         sm={4}
+                         md={4}
+                          style={{ textAlign: "center" }}
+                        >
+                          <Box>
+                            <Typography variant="subtitle2">
+                              {card.budget}
+                            </Typography>
+                          </Box>
+
+                          <Box>
+                            <Typography variant="body2">Budget</Typography>
+                          </Box>
+                        </GridItem>
+                        <GridItem
+                          xs={12}
+                          sm={4}
+                          md={4}
+                    style={{ paddingLeft: "24px", paddingTop:"24px" }}
+
+                        >
+                          <Box>
+                            <Typography variant="subtitle2">Europe</Typography>
+                          </Box>
+
+                          <Box>
+                            <Typography variant="body2">Location</Typography>
+                          </Box>
+                        </GridItem>
+                        <GridItem
+                          xs={12}
+                          sm={4}
+                          md={4}
+                          style={{ textAlign: "center" }}
+                        >
+                          <Box>
+                            <Typography variant="subtitle2">
+                              Full-time
+                            </Typography>
+                          </Box>
+
+                          <Box>
+                            <Typography variant="body2">Type</Typography>
+                          </Box>
+                        </GridItem>
+                      </GridContainer>
                     </CardContent>
+                    <Divider />
+
                     <CardActions>
-                      <Button size="small" color="primary">
-                        View
-                      </Button>
-                      <Button size="small" color="primary">
-                        Edit
-                      </Button>
+                    <Typography variant="body2"> {card.subs} Subs</Typography>
+
+                      <Rating name="half-rating" value={card.rating} readOnly />
                     </CardActions>
                   </Card>
                 </Grid>
