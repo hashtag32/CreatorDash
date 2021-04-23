@@ -1,6 +1,5 @@
 {
   "projects": {
-    "default": "creatordash",
-    "creatordash": "creatordash-a90d0"
+    "default": "creatordash-a90d0"
   }
 }
